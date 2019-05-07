@@ -1,0 +1,88 @@
+{
+    "title": "Furkot Trips",
+    "description": "Furkot provides Rest API to access user trip data.\nUsing Furkot API an application can list user trips and display stops for a specific trip.\nFurkot API uses OAuth2 protocol to authorize applications to access data on behalf of users.\n",
+    "docsUrl": "https://help.furkot.com/widgets/furkot-api.html",
+    "url": "https://api.apis.guru/v2/specs/furkot.com/1.0.0/swagger.json",
+    "envVars": {
+        "OAUTH_CLIENT_ID": {
+            "description": "OAuth Client ID"
+        },
+        "OAUTH_CLIENT_SECRET": {
+            "description": "OAuth Client Secret"
+        }
+    },
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://trips.furkot.com/pub/api",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "furkot_auth_access_code": {
+                "label": "furkot_auth_access_code",
+                "viewClass": "OAuthFieldView"
+            },
+            "furkot_auth_implicit": {
+                "label": "furkot_auth_implicit",
+                "viewClass": "OAuthFieldView"
+            }
+        },
+        "oauth2": {
+            "client_id": "{{OAUTH_CLIENT_ID}}",
+            "client_secret": "{{OAUTH_CLIENT_SECRET}}",
+            "auth_uri": "https://trips.furkot.com/oauth/authorize"
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "get_trip": {
+            "main": "./lib/actions/get_trip.js",
+            "title": "list user's trips",
+            "description": "list user's trips",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_trip.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_trip__trip_id__stop": {
+            "main": "./lib/actions/get_trip__trip_id__stop.js",
+            "title": "list stops for a trip identified by {trip_id}",
+            "description": "list stops for a trip identified by {trip_id}",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_trip__trip_id__stop.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}
